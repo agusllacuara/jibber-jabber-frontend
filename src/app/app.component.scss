@@ -1,0 +1,23 @@
+.header{
+  height: 50px;
+}
+
+.fullscreen {
+  width: 100vw;
+  height: calc(100vh - 50px);
+  box-sizing: border-box;
+
+  .sidenav {
+    width: 200px;
+    padding: 2vh 1vw;
+    box-sizing: border-box;
+
+    &.right {
+
+    }
+
+    &.left {
+
+    }
+  }
+}
