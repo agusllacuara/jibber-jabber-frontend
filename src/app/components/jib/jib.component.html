@@ -1,0 +1,24 @@
+<div *ngIf="jib" class="jib">
+  <h3>{{jib.creator}}</h3>
+  <p>{{jib.content}}</p>
+  <div class="row">
+    <div class="action-button">
+      <button mat-icon-button class="small">
+        <mat-icon>chat_bubble_outline</mat-icon>
+      </button>
+      <p>{{jib.thread.length}}</p>
+    </div>
+    <div class="action-button">
+      <button mat-icon-button class="small">
+        <mat-icon>thumb_up_off_alt</mat-icon>
+      </button>
+      <p>{{jib.likes.length}}</p>
+    </div>
+    <div class="action-button">
+      <button mat-icon-button class="small">
+        <mat-icon>repeat</mat-icon>
+      </button>
+      <p>{{jib.reJib.length}}</p>
+    </div>
+  </div>
+</div>

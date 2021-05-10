@@ -1,9 +1,6 @@
-<mat-list *ngFor="let jib of jibs">
+<mat-list *ngFor="let jib of jibs" class="table">
   <mat-list-item>
-    <div class="jibber">
-      <h3>{{jib.creator}}</h3>
-      <p>{{jib.content}}</p>
-    </div>
+    <app-jib [jib]="jib" style="width: 100%"></app-jib>
   </mat-list-item>
   <mat-divider></mat-divider>
 </mat-list>

@@ -9,11 +9,15 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MainTableComponent} from './components/main-table/main-table.component';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
+import { JibComponent } from './components/jib/jib.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainTableComponent
+    MainTableComponent,
+    JibComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +26,9 @@ import {MatListModule} from '@angular/material/list';
     MatSidenavModule,
     MatToolbarModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
