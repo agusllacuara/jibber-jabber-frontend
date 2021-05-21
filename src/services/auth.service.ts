@@ -20,18 +20,19 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    this.http.post<any>('http://localhost:8081/login', {email: email, password: password})
-      .subscribe(
-        (response: any) => {
-          if (response && response.status == '200') {
-            this.logged.next(true);
-          }
-        },
-        (error) => {
-          this.logged.next(false);
-          this.loginErrorHandler(error);
-        });
-
+    // this.http.post<any>('http://localhost:8081/login', {email: email, password: password})
+    //   .subscribe(
+    //     (response: any) => {
+    //       if (response && response.status == '200') {
+    //         this.logged.next(true);
+    //       }
+    //     },
+    //     (error) => {
+    //       this.logged.next(false);
+    //       this.loginErrorHandler(error);
+    //     });
+    this.userService.setCurrentUser(this.accounts[0]);
+    this.logged.next(true);
   }
 
   private loginErrorHandler(err: HttpErrorResponse): void {
