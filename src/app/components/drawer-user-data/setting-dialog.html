@@ -1,0 +1,18 @@
+<h1 mat-dialog-title style="font-weight: 500">Change {{data.currentSetting}}</h1>
+<div mat-dialog-content>
+  <p style="font-weight: 500; font-size: 17px">Current {{data.currentSetting}}:
+    <span style="font-size: 17px; font-weight: normal" *ngIf="data.currentSetting == 'password'" matInput disabled type="password">{{data.user.id}}</span>
+    <span style="font-size: 17px; font-weight: normal" *ngIf="data.currentSetting == 'username'" matInput disabled>{{data.user.username}}</span>
+    <span style="font-size: 17px; font-weight: normal" *ngIf="data.currentSetting == 'email'" matInput disabled>{{data.user.email}}</span>
+  </p>
+  <mat-form-field style="width: 100%">
+    <mat-label>New {{data.currentSetting}}</mat-label>
+    <input matInput *ngIf="data.currentSetting == 'password'" [(ngModel)]="data.modifyMeUser.id">
+    <input matInput *ngIf="data.currentSetting == 'username'" [(ngModel)]="data.modifyMeUser.username">
+    <input matInput *ngIf="data.currentSetting == 'email'" [(ngModel)]="data.modifyMeUser.email">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions style="width: 100%; display: flex; flex-direction: row; align-items: center; justify-content: space-evenly;">
+  <button style="height: 40px; font-size: 16px" mat-button (click)="onNoClick()">Cancel</button>
+  <button style="height: 40px; font-size: 16px" mat-raised-button [mat-dialog-close]="data.modifyMeUser" cdkFocusInitial color="primary">Confirm</button>
+</div>

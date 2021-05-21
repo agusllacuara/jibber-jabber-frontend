@@ -1,0 +1,93 @@
+<div class="background"></div>
+
+<div class="fullscreen">
+  <div class="form-container">
+    <div class="row title">
+      <img src="assets/logo-white.png" style="height: 75%; margin-right: 5px">
+    </div>
+    <form class="form" *ngIf="mode == 'login'">
+      <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput [formControl]="loginEmailFormControl" [errorStateMatcher]="matcher"
+               placeholder="yourEmail@jibber.com">
+        <mat-error *ngIf="loginEmailFormControl.hasError('email') && !loginEmailFormControl.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="loginEmailFormControl.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput [formControl]="loginPasswordFormControl" [errorStateMatcher]="matcher" type="password">
+        <mat-error
+          *ngIf="loginPasswordFormControl.hasError('minlength') && !loginPasswordFormControl.hasError('required')">
+          Password is at least 8 chars!
+        </mat-error>
+        <mat-error *ngIf="loginPasswordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </form>
+
+    <form class="form" *ngIf="mode == 'register'">
+
+      <mat-form-field class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput [formControl]="stringFormControl" [errorStateMatcher]="matcher" type="text" [(ngModel)]="registerUsername">
+        <mat-error *ngIf="stringFormControl.hasError('minlength') && !stringFormControl.hasError('required')">
+          Username is at least 1 char!
+        </mat-error>
+        <mat-error *ngIf="stringFormControl.hasError('required')">
+          Username is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput [formControl]="registerEmailFormControl" [errorStateMatcher]="matcher"
+               placeholder="yourEmail@jibber.com">
+        <mat-error *ngIf="registerEmailFormControl.hasError('email') && !registerEmailFormControl.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="registerEmailFormControl.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput [formControl]="registerPasswordFormControl" [errorStateMatcher]="matcher" type="password">
+        <mat-error
+          *ngIf="registerPasswordFormControl.hasError('minlength') && !registerPasswordFormControl.hasError('required')">
+          Password is at least 8 chars!
+        </mat-error>
+        <mat-error *ngIf="registerPasswordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </form>
+
+    <div class="buttons-container">
+      <button *ngIf="mode == 'login'" mat-raised-button color="primary" class="login-button relative" (click)="login()">
+        {{loginLoading ? null : 'Login'}}
+        <mat-icon>
+          <mat-spinner *ngIf="loginLoading" diameter="25" color="accent"></mat-spinner>
+        </mat-icon>
+      </button>
+      <button *ngIf="mode == 'login'" mat-button color="primary" class="login-button" (click)="toggleMode('register')">
+        Create account
+      </button>
+      <button *ngIf="mode == 'register'" mat-raised-button color="primary" class="login-button relative"
+              (click)="createAccount()">
+        {{loginLoading? null : 'Create account'}}
+        <mat-icon>
+          <mat-spinner *ngIf="loginLoading" diameter="25" color="accent"></mat-spinner>
+        </mat-icon>
+      </button>
+      <button *ngIf="mode == 'register'" mat-button color="primary" class="login-button" (click)="toggleMode('login')">
+        Back
+      </button>
+    </div>
+  </div>
+</div>

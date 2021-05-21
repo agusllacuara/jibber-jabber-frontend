@@ -1,6 +1,7 @@
 <div *ngIf="jib" class="jib">
-  <h3>{{jib.creator}}</h3>
+  <h3>{{jib.user}}</h3>
   <p>{{jib.content}}</p>
+  <img *ngIf="jib.media" class="jib-image" [id]="'image-'+jib.id">
   <div class="row">
     <div class="action-button">
       <button mat-icon-button class="small">
@@ -18,7 +19,8 @@
       <button mat-icon-button class="small">
         <mat-icon>repeat</mat-icon>
       </button>
-      <p>{{jib.reJib.length}}</p>
+      <p>{{jib.reposts.length}}</p>
     </div>
+    <p *ngIf="!mobile">{{getTimeForTime(jib.date)}}</p>
   </div>
 </div>

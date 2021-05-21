@@ -1,14 +1,1 @@
-<mat-toolbar class="header" color="primary">
-  Jibber Jabber
-  <button mat-icon-button class="right" (click)="leftSidenav.toggle()">
-    <mat-icon>mail_outline</mat-icon>
-  </button>
-</mat-toolbar>
-
-<mat-drawer-container class="fullscreen">
-  <mat-drawer mode="side" opened class="sidenav left">User options</mat-drawer>
-  <mat-drawer-content>
-    <app-main-table></app-main-table>
-  </mat-drawer-content>
-  <mat-drawer #leftSidenav mode="side" opened position="end" class="sidenav right">Messages</mat-drawer>
-</mat-drawer-container>
+<router-outlet></router-outlet>

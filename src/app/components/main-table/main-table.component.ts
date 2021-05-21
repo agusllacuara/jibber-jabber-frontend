@@ -13,8 +13,14 @@ export class MainTableComponent implements OnInit {
 
   constructor(private jibService: JibService) { }
 
-  ngOnInit(): void {
-    this.jibs = this.jibService.getAllJibs();
+  async ngOnInit(): Promise<void> {
+    this.subscribeObservers();
+    await this.jibService.getAllJibs();
   }
 
+  private subscribeObservers() {
+    this.jibService.allJibsObservable.subscribe((allJibs => {
+      this.jibs = allJibs;
+    }));
+  }
 }

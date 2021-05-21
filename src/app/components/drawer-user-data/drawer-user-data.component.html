@@ -1,0 +1,28 @@
+<div class="full-size">
+  <mat-list style="width: 100%">
+    <div mat-subheader class="white-text remove-left-padding section-title">You</div>
+    <mat-list-item *ngIf="user">
+      <mat-icon mat-list-icon class="white-text">person</mat-icon>
+      <div mat-line class="white-text">{{user.username}}</div>
+      <div mat-line class="white-text">{{user.email}}</div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <div mat-subheader class="white-text remove-left-padding section-title add-padding">Settings</div>
+
+    <mat-list-item class="option" (click)="openModal('username')">
+      <mat-icon mat-list-icon class="white-text">settings</mat-icon>
+      <div mat-line class="white-text">Change username</div>
+    </mat-list-item>
+
+    <mat-list-item class="option" (click)="openModal('password')">
+      <mat-icon mat-list-icon class="white-text">settings</mat-icon>
+      <div mat-line class="white-text">Change password</div>
+    </mat-list-item>
+
+    <mat-list-item class="option" (click)="openModal('email')">
+      <mat-icon mat-list-icon class="white-text">settings</mat-icon>
+      <div mat-line class="white-text">Change mail</div>
+    </mat-list-item>
+  </mat-list>
+  <button mat-button (click)="logout()" class="logout-button">Logout</button>
+</div>
