@@ -16,20 +16,20 @@ export class JibService {
   }
 
   async getAllJibs(): Promise<void> {
-    // this.http.get<any[]>('http://localhost:8080/post/getAll')
-    //   .subscribe((data: any[]) => {
-    //     const jibs: Jib[] = [];
-    //     data.forEach((jb) => {
-    //       let jib: Jib;
-    //       if (jb.media) {
-    //         jib = new Jib(jb.id, jb.user_info, jb.content, jb.likes, jb.reposts, jb.threads, jb.date, jb.media);
-    //       } else {
-    //         jib = new Jib(jb.id, jb.user_info, jb.content, jb.likes, jb.reposts, jb.threads, jb.date);
-    //       }
-    //       jibs.push(jib);
-    //     });
-    //     this.setAllJibs(jibs);
-    //   });
+    this.http.get<any[]>('http://localhost:8080/post/getAll')
+      .subscribe((data: any[]) => {
+        const jibs: Jib[] = [];
+        data.forEach((jb) => {
+          let jib: Jib;
+          if (jb.media) {
+            jib = new Jib(jb.id, jb.user_info, jb.content, jb.likes, jb.reposts, jb.threads, jb.date, jb.media);
+          } else {
+            jib = new Jib(jb.id, jb.user_info, jb.content, jb.likes, jb.reposts, jb.threads, jb.date);
+          }
+          jibs.push(jib);
+        });
+        this.setAllJibs(jibs);
+      });
   }
 
   private setAllJibs(jibs: Jib[]): void {
