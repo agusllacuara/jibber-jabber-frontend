@@ -8,7 +8,7 @@ import {UserService} from "./user.service";
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService{
 
   private accounts: User[] = [new User(12345678,'agusllacuara','agus@gmail.com')];
 
@@ -17,6 +17,9 @@ export class AuthService {
 
   constructor(private http: HttpClient, private notificationService: NotificationService,
               private userService: UserService) {
+    if (localStorage.getItem('jj-tkn') == 'logged'){
+      this.logged.next(true);
+    }
   }
 
   login(email: string, password: string) {
@@ -32,6 +35,7 @@ export class AuthService {
     //       this.loginErrorHandler(error);
     //     });
     this.userService.setCurrentUser(this.accounts[0]);
+    localStorage.setItem('jj-tkn', 'logged'); //todo change this
     this.logged.next(true);
   }
 
@@ -53,6 +57,7 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem('jj-tkn');
     this.logged.next(false);
   }
 }

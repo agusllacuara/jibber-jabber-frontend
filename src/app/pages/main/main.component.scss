@@ -2,13 +2,57 @@
   height: 50px;
 }
 
-button.right{
+.right{
   position: absolute;
   right: 15px;
-  transition: all ease .25s;
+  width: 25%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 
-  &:hover{
-    background: rgba(255,255,255,.05);
+  .search-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-input{
+    height: 100% !important;
+    box-sizing: border-box;
+    background: transparent;
+    border: 2px solid white;
+    border-radius: 50px;
+    padding: 7px 15px;
+    margin-right: 15px;
+    color: white;
+    outline: none;
+    transition: all ease .35s;
+
+    &:focus{
+      border-bottom: 2px solid white;
+      border-radius: 0;
+      border-right: 2px solid transparent;
+      border-left: 2px solid transparent;
+      border-top: 2px solid transparent;
+    }
+
+    &::placeholder{
+      color: white;
+    }
+  }
+
+  .mat-form-field-flex{
+    height: 90%;
+
+  }
+
+  button{
+    transition: all ease .25s;
+    &:hover{
+      background: rgba(255,255,255,.05);
+    }
   }
 }
 
@@ -16,6 +60,7 @@ button.right{
   width: 100vw;
   height: calc(100vh - 50px);
   box-sizing: border-box;
+  overflow: hidden;
 
   .sidenav {
     width: 25%;
@@ -31,4 +76,19 @@ button.right{
       border-top: 1px solid #757de8;
     }
   }
+}
+
+.column{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  height: 100%;
+  background: white;
+}
+
+.table-container{
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
 }

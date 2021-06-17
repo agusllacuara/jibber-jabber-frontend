@@ -1,17 +1,14 @@
-.jib {
-  display: flex;
-  align-items: start;
-  justify-content: start;
-  flex-direction: column;
-  padding: 10px 0;
+.profile-header-container {
+  width: 100%;
+  padding: 2vh 16px 1vh;
   box-sizing: border-box;
+  height: calc(3vh + 90px);
+  background: #ccc0cc;
 
-  h3 {
-    margin-bottom: 7px;
-  }
-
-  p {
-    margin-bottom: 15px;
+  .title{
+    font-size: 30px;
+    font-weight: bold;
+    color: #23313F;
   }
 
   .row {
@@ -23,16 +20,17 @@
     height: 30px;
     //box-shadow: rgb(0 0 0 / 15%) 0 0 5px;
 
-    .actions-container{
-      width: 50%;
+    .actions-container {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-evenly;
       flex-direction: row;
     }
 
-    p{
+    p {
       margin: 0;
+      font-size: 20px;
     }
 
     .action-button {
@@ -41,7 +39,7 @@
       justify-content: center;
 
       p {
-        font-size: 13px;
+        font-size: 18px;
         color: #23313F;
         margin: 0 0 0 5px;
       }
@@ -64,11 +62,5 @@
 
       }
     }
-  }
-
-  img {
-    width: 100%;
-    padding: 0 0 2vh;
-    box-sizing: border-box;
   }
 }

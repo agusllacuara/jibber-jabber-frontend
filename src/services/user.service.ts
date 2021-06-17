@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {NotificationService} from "./notification.service";
-import {User} from "../model/User";
+import {User, UserProfile} from "../model/User";
 
 @Injectable({
   providedIn: 'root',
@@ -22,14 +22,20 @@ export class UserService {
   }
 
   modifyUsername(username: string) {
-
+    this.http.post<User>('http://localhost:8080/change/username', username)
+      .subscribe((data) => {
+        this.currentUser = data;
+      });
   }
 
   modifyPassword(password: string) {
-
+    this.http.post<User>('http://localhost:8080/change/password', password)
+      .subscribe((data) => {
+        this.currentUser = data;
+      });
   }
 
-  modifyEmail(email: string) {
-
+  searchUsername(searchUsername: string) {
+    return this.http.post<UserProfile>('http://localhost:8080/search', searchUsername).toPromise()
   }
 }

@@ -22,6 +22,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DrawerUserDataComponent, SettingsDialog} from './components/drawer-user-data/drawer-user-data.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { CreateJibbyComponent } from './components/create-jibby/create-jibby.component';
+import { ProfileHeaderComponent } from './components/profile-header/profile-header.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     LoginComponent,
     MainComponent,
     DrawerUserDataComponent,
-    SettingsDialog
+    SettingsDialog,
+    CreateJibbyComponent,
+    ProfileHeaderComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,11 @@
+<div class="create-container">
+  <form class="form">
+    <mat-form-field class="full-width">
+      <mat-label>New jibby</mat-label>
+      <input matInput [(ngModel)]="content" name="content" class="full-width">
+    </mat-form-field>
+  </form>
+  <div class="reverse">
+    <button mat-raised-button color="primary" (click)="publish()" class="logout-button">Publish</button>
+  </div>
+</div>

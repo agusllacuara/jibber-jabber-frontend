@@ -3,24 +3,29 @@
   <p>{{jib.content}}</p>
   <img *ngIf="jib.media" class="jib-image" [id]="'image-'+jib.id">
   <div class="row">
-    <div class="action-button">
-      <button mat-icon-button class="small">
-        <mat-icon>chat_bubble_outline</mat-icon>
-      </button>
-      <p>{{jib.thread.length}}</p>
-    </div>
-    <div class="action-button">
-      <button mat-icon-button class="small">
-        <mat-icon>thumb_up_off_alt</mat-icon>
-      </button>
-      <p>{{jib.likes.length}}</p>
-    </div>
-    <div class="action-button">
-      <button mat-icon-button class="small">
-        <mat-icon>repeat</mat-icon>
-      </button>
-      <p>{{jib.reposts.length}}</p>
-    </div>
     <p *ngIf="!mobile">{{getTimeForTime(jib.date)}}</p>
+
+    <div class="actions-container">
+      <div class="action-button" *ngIf="jib.thread">
+        <button mat-icon-button class="small">
+          <mat-icon>chat_bubble_outline</mat-icon>
+        </button>
+        <p>{{jib.thread.length}}</p>
+      </div>
+
+      <div class="action-button">
+        <button mat-icon-button class="small" (click)="like(jib)">
+          <mat-icon>thumb_up_off_alt</mat-icon>
+        </button>
+        <p>{{jib.likes.length}}</p>
+      </div>
+
+      <div class="action-button">
+        <button mat-icon-button class="small" (click)="delete(jib)">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>

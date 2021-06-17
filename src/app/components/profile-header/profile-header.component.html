@@ -1,0 +1,29 @@
+<div class="profile-header-container" *ngIf="user">
+  <div class="mat-title title">{{user.username}}</div>
+  <div class="row">
+    <div class="actions-container">
+      <div class="action-button">
+        <button mat-icon-button class="small">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+        <p><strong>Following:</strong> {{user.followingCount}}</p>
+      </div>
+
+      <div class="action-button">
+        <button mat-icon-button class="small">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+        <p><strong>Followers: </strong>{{user.followersCount}}</p>
+      </div>
+
+      <div class="action-button">
+        <button mat-icon-button class="small">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+        <p><strong>Jibbys: </strong>{{user.jibCount}}</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>

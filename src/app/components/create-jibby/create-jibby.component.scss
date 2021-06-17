@@ -1,0 +1,19 @@
+.create-container{
+  width: 100%;
+  padding: 2vh 16px 1vh;
+  box-sizing: border-box;
+  height: calc(4vh + 90px);
+  background: #ccc0cc;
+
+  .full-width{
+    width: 100%;
+  }
+
+  .reverse{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+}

@@ -1,5 +1,7 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Jib} from "../../../model/Jib";
+import {JibService} from "../../../services/jib.service";
+import {NotificationService} from "../../../services/notification.service";
 
 @Component({
   selector: 'app-jib',
@@ -9,9 +11,11 @@ import {Jib} from "../../../model/Jib";
 export class JibComponent implements OnInit, AfterViewInit {
 
   @Input() jib: Jib | undefined;
+  @Input() isSelf: boolean | undefined;
   mobile: boolean = false;
+  @Output() deletedSelf: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor() {
+  constructor(private jibService: JibService, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -25,11 +29,15 @@ export class JibComponent implements OnInit, AfterViewInit {
   }
 
   getTimeForTime(datetime: string) {
-    const [day, time] = datetime.split('T');
-    const [year, month, date] = day.split('-');
-    const [useTime, deleteTime] = time.split('.')
-    const [hour, minute, seconds] = useTime.split(':');
-    return date + '/' + month + '/' + year + ' - ' + hour + ':' + minute + ':' + seconds;
+    try {
+      const [day, time] = datetime.split('T');
+      const [year, month, date] = day.split('-');
+      const [useTime, deleteTime] = time.split('.')
+      const [hour, minute, seconds] = useTime.split(':');
+      return date + '/' + month + '/' + year + ' - ' + hour + ':' + minute + ':' + seconds;
+    } catch (e) {
+      return ''
+    }
   }
 
   setFiles(elementId: string, base64: string, type: 'video' | 'image') {
@@ -42,4 +50,19 @@ export class JibComponent implements OnInit, AfterViewInit {
     }
   }
 
+  like(jib: Jib) {
+    this.jibService.like(jib);
+    jib.likes.push('user')
+  }
+
+  async delete(jib: Jib) {
+    this.jibService.delete(jib)
+      .then((id) => {
+        this.deletedSelf.emit(id);
+      })
+      .catch(e => {
+        console.log(e);
+        this.notificationService.notify('Could not delete jibby! Try again later.')
+      });
+  }
 }
