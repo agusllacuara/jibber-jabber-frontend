@@ -30,7 +30,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          configurations: develop
+          build-args: .
           tags: |
             docker.pkg.github.com/${{ github.repository }}/octo-image:${{ github.sha }}
             docker.pkg.github.com/${{ github.repository }}/octo-image:${{ github.ref }}
