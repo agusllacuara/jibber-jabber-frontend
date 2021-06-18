@@ -1,0 +1,6 @@
+<div class="dm-container">
+  <div class="mat-title">Direct messages</div>
+  <div class="dm-list-container">
+    <app-chat *ngFor="let chat of allChats" [chat]="chat" [isOpen]="chatIsOpen(chat)" style="width: 100%" (click)="open(chat)"></app-chat>
+  </div>
+</div>

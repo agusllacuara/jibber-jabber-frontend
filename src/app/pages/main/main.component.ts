@@ -12,8 +12,8 @@ export class MainComponent implements OnInit {
 
   currentUser: User | undefined;
   searchUsername: string = '';
-  viewMode: ViewMode = "feed";
-  profileUser: UserProfile | undefined;
+  viewMode: ViewMode = "profile";
+  profileUser: UserProfile | undefined = new UserProfile(1, 'NickyFox', 'email@gmail.com', 123, [], []);
 
   constructor(private userService: UserService,
               private notificationService: NotificationService) {
@@ -44,6 +44,14 @@ export class MainComponent implements OnInit {
   setUserProfile(userProfile: UserProfile) {
     this.profileUser = userProfile;
     this.viewMode = 'profile';
+  }
+
+  badgeIsDisabled() {
+    if (this.currentUser) {
+      return !this.currentUser.hasUnreadMessages;
+    } else {
+      return true;
+    }
   }
 }
 

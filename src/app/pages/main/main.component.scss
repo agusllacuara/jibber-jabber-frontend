@@ -12,10 +12,17 @@
   justify-content: flex-end;
   align-items: center;
 
-  .search-container{
+  .input-container{
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+  }
+
+  .user-icon{
+    position: absolute;
+    left: 20px;
+    margin-right: 10px;
   }
 
   .search-input{
@@ -24,7 +31,7 @@
     background: transparent;
     border: 2px solid white;
     border-radius: 50px;
-    padding: 7px 15px;
+    padding: 7px 15px 7px 50px;
     margin-right: 15px;
     color: white;
     outline: none;

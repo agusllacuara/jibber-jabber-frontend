@@ -22,8 +22,12 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DrawerUserDataComponent, SettingsDialog} from './components/drawer-user-data/drawer-user-data.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { CreateJibbyComponent } from './components/create-jibby/create-jibby.component';
-import { ProfileHeaderComponent } from './components/profile-header/profile-header.component';
+import {CreateJibbyComponent} from './components/create-jibby/create-jibby.component';
+import {ProfileHeaderComponent} from './components/profile-header/profile-header.component';
+import {MatBadgeModule} from "@angular/material/badge";
+import { DirectMessagesComponent } from './components/direct-messages/direct-messages.component';
+import { ChatComponent } from './components/direct-messages/chat/chat.component';
+import { MessageComponent } from './components/direct-messages/chat/message/message.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,10 @@ import { ProfileHeaderComponent } from './components/profile-header/profile-head
     DrawerUserDataComponent,
     SettingsDialog,
     CreateJibbyComponent,
-    ProfileHeaderComponent
+    ProfileHeaderComponent,
+    DirectMessagesComponent,
+    ChatComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +61,8 @@ import { ProfileHeaderComponent } from './components/profile-header/profile-head
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
