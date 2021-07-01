@@ -3,6 +3,7 @@ import {Jib} from "../model/Jib";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from "../model/User";
+import {EnvironmentProvider} from "../environments/EnvironmentProvider";
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class JibService {
   }
 
   async getAllJibs(): Promise<void> {
-    this.http.get<any[]>('http://localhost:8080/post/getAll')
+    this.http.get<any[]>(EnvironmentProvider.getGatewayURL() +'/post/getAll')
       .subscribe((data: any[]) => {
         const jibs: Jib[] = [];
         data.forEach((jb) => {
@@ -38,7 +39,7 @@ export class JibService {
   }
 
   publish(content: string) {
-    this.http.post<Jib>('http://localhost:8080/post/create', {content: content})
+    this.http.post<Jib>(EnvironmentProvider.getGatewayURL() +'/post/create', {content: content})
       .subscribe(async (data) => {
         if (data) {
           const newJibs = this.allJibs.getValue();
@@ -49,17 +50,17 @@ export class JibService {
   }
 
   like(jib: Jib) {
-    this.http.post<Jib>('http://localhost:8080/post/like', {jib: jib.id})
+    this.http.post<Jib>(EnvironmentProvider.getGatewayURL() +'/post/like', {jib: jib.id})
       .subscribe(async (data) => {
       });
   }
 
   getUserJibs(user: User) {
-    // return this.http.get<Jib[]>('http://localhost:8080/post/getAll/' + user.id).toPromise();
+    // return this.http.get<Jib[]>(EnvironmentProvider.getGatewayURL() +'/post/getAll/' + user.id).toPromise();
     return Promise.resolve([new Jib(1, 'NickyFox', 'jb.content', ['1'], ['jb.reposts'], [], '', undefined)]);
   }
 
   async delete(jib: Jib): Promise<number> {
-    return this.http.delete<number>('http://localhost:8080/post/' + jib.id).toPromise();
+    return this.http.delete<number>(EnvironmentProvider.getGatewayURL() +'/post/' + jib.id).toPromise();
   }
 }

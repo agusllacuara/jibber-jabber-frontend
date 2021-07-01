@@ -6,8 +6,7 @@ import {MainComponent} from "./pages/main/main.component";
 const routes: Routes = [
   {path: 'feed', component: MainComponent},
   {path: 'login', component: LoginComponent},
-  { path: '**', component: LoginComponent },  // Wildcard route for a 404 page
-  { path: '',   redirectTo: '/login', pathMatch: 'full' }
+  {path: '', redirectTo: '/login', pathMatch: 'full'}
 ];
 
 @NgModule({

@@ -64,8 +64,7 @@ export class ProfileHeaderComponent implements OnInit {
   }
 
   chat() {
-    // TODO cambiar a sockets
-    if (this.user) this.chatService.createChat(this.user.id)
+    if (this.user) this.chatService.createChat(this.user)
   }
 }
 
