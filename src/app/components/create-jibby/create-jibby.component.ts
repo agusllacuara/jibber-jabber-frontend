@@ -17,7 +17,8 @@ export class CreateJibbyComponent implements OnInit {
 
   publish() {
     if (this.content.length > 0){
-      this.jibService.publish(this.content)
+      this.jibService.publish(this.content);
+      this.content = '';
     }
   }
 }

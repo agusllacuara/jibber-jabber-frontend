@@ -18,6 +18,17 @@ export class AuthService {
   currentToken: string = '';
 
   constructor(private http: HttpClient, private notificationService: NotificationService) {
+    const user = localStorage.getItem('jj-user');
+    if (user) {
+      const tkn = localStorage.getItem('jj-tkn');
+      if (tkn) {
+        this.currentUser = JSON.parse(user);
+        const aux = tkn.split('"');
+        this.currentToken = aux[1];
+        this.logged.next(true);
+        this.logged.next(true);
+      }
+    }
   }
 
   getCurrentUser(): User | undefined {
@@ -29,19 +40,21 @@ export class AuthService {
       email: email,
       password: password
     })
-    .subscribe(
-      (response) => {
-        if (response) {
-          this.currentToken = 'Bearer ' + response.token;
-          this.currentUser = response.user;
-          this.logged.next(true);
-        }
-      },
-      (error) => {
-        console.log(error)
-        this.logged.next(false);
-        this.loginErrorHandler(error);
-      });
+      .subscribe(
+        (response) => {
+          if (response) {
+            this.currentToken = 'Bearer ' + response.token;
+            this.currentUser = response.user;
+            localStorage.setItem('jj-user', JSON.stringify(this.currentUser));
+            localStorage.setItem('jj-tkn', JSON.stringify(this.currentToken));
+            this.logged.next(true);
+          }
+        },
+        (error) => {
+          console.log(error)
+          this.logged.next(false);
+          this.loginErrorHandler(error);
+        });
 
   }
 
@@ -52,7 +65,11 @@ export class AuthService {
   async createAccount(username: string, email: string, password: string): Promise<boolean> {
     try {
       const header = {headers: {contentType: "application/json"}}
-      const register = await this.http.post<any>(EnvironmentProvider.getGatewayURL() + '/users/register', {username: username, email: email, password: password}, header).toPromise();
+      const register = await this.http.post<any>(EnvironmentProvider.getGatewayURL() + '/users/register', {
+        username: username,
+        email: email,
+        password: password
+      }, header).toPromise();
       this.notificationService.notify('Register successful! Login to continue.');
       return Promise.resolve(true);
     } catch (err) {
@@ -63,6 +80,8 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem('jj-user');
+    localStorage.removeItem('jj-tkn');
     this.logged.next(false);
   }
 }

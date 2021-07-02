@@ -41,7 +41,6 @@ export class JibComponent implements OnInit, AfterViewInit {
   }
 
   setFiles(elementId: string, base64: string, type: 'video' | 'image') {
-    console.log(elementId)
     if (type === 'image') {
       document.getElementById(elementId)?.setAttribute('src', 'data:image/jpeg;base64,' + base64);
     }

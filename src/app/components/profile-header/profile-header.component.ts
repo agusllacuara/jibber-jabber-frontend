@@ -11,9 +11,19 @@ import {ChatService} from "../../../services/chat.service";
 })
 export class ProfileHeaderComponent implements OnInit {
 
-  @Input() user: UserProfile | undefined;
+  user: UserProfile | undefined;
+
+  @Input() set _user(user: UserProfile | undefined) {
+    this.user = user;
+    this.isSelf = !!(this.user && this.user.id == this.me?.id);
+    this.getUserData();
+  };
+
   isSelf: boolean | undefined;
   me: User | undefined;
+
+  followers: UserProfile[] | undefined;
+  following: UserProfile[] | undefined;
 
   constructor(private userService: UserService,
               private notificationService: NotificationService,
@@ -26,20 +36,24 @@ export class ProfileHeaderComponent implements OnInit {
   }
 
   canFollow(): boolean {
-    if (this.user && this.me) {
-      const imFollower = this.user.followers.find(x => x.id == this.me?.id);
+    if (this.user && this.me && this.followers) {
+      console.log('Followers: ',this.followers)
+      const imFollower = this.followers.find(x => x.id == this.me!.id);
       return !this.isSelf && !imFollower;
+    } else {
+      return false
     }
-    return false
   }
 
   follow() {
-    if (this.user){
+    if (this.user) {
       this.userService.follow(this.user.id)
         .then((res) => {
-          if (res && this.user && this.me) {
-            this.user.followers.push(this.me);
-            this.notificationService.notify('Following ' + this.user.username);
+          if (res && this.user && this.me && this.followers) {
+            this.followers.push(this.me);
+            this.userService.follow(this.user.id).then(() => {
+              this.notificationService.notify('Following ' + this.user!.username);
+            });
           }
         })
         .catch((e) => {
@@ -49,12 +63,13 @@ export class ProfileHeaderComponent implements OnInit {
   }
 
   unfollow() {
-    if (this.user){
+    if (this.user) {
       this.userService.unfollow(this.user.id)
         .then((res) => {
-          if (this.me && this.user){
-            this.user.followers = this.user.followers.filter(x => x.id != this.me?.id);
+          if (this.me && this.user && this.followers) {
+            this.followers = this.followers.filter(x => x.id != this.me!.id);
             if (res) this.notificationService.notify('Unfollowed ' + this.user.username);
+            else this.notificationService.notify('Something happened. Try again later.')
           }
         })
         .catch((e) => {
@@ -65,6 +80,19 @@ export class ProfileHeaderComponent implements OnInit {
 
   chat() {
     if (this.user) this.chatService.createChat(this.user)
+  }
+
+  private getUserData() {
+    if (this.user) {
+      this.userService.getFollowers(this.user.id)
+        .then((res: UserProfile[]) => {
+          this.followers = res;
+        });
+      this.userService.getFollowing(this.user.id)
+        .then((res: UserProfile[]) => {
+          this.following = res;
+        });
+    }
   }
 }
 

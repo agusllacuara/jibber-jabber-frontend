@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Jib} from "../../../model/Jib";
 import {JibService} from "../../../services/jib.service";
 import {User} from "../../../model/User";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-main-table',
@@ -10,11 +11,16 @@ import {User} from "../../../model/User";
 })
 export class MainTableComponent implements OnInit {
 
-  @Input() user: User | undefined;
+  user: User | undefined;
+  @Input() set _user(user: User | undefined) {
+    this.user = user;
+    this.update();
+  };
+
   jibs: Jib[] = [];
   isSelf: boolean = false;
 
-  constructor(private jibService: JibService) {
+  constructor(private jibService: JibService, private authService: AuthService) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -23,14 +29,7 @@ export class MainTableComponent implements OnInit {
       this.subscribeObservers();
       await this.jibService.getAllJibs();
     } else {
-      this.isSelf = true;
-      this.jibService.getUserJibs(this.user)
-        .then((res) => {
-          this.jibs = res;
-        })
-        .catch(e => {
-          console.log(e)
-        });
+     this.update()
     }
   }
 
@@ -43,5 +42,18 @@ export class MainTableComponent implements OnInit {
   async deletedJib(jib: number) {
     this.jibs.filter(x => x.id = jib);
     if (this.user) await this.jibService.getUserJibs(this.user)
+  }
+
+  private update() {
+    if (this.user){
+      this.isSelf = this.authService.currentUser!.id == this.user.id;
+      this.jibService.getUserJibs(this.user)
+        .then((res) => {
+          this.jibs = res;
+        })
+        .catch(e => {
+          console.log(e)
+        });
+    }
   }
 }

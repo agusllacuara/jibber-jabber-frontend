@@ -12,8 +12,8 @@ export class MainComponent implements OnInit {
 
   currentUser: User | undefined;
   searchUsername: string = '';
-  viewMode: ViewMode = "profile";
-  profileUser: UserProfile | undefined = new UserProfile(1, 'NickyFox', 'email@gmail.com', 123, [], []);
+  viewMode: ViewMode = "feed";
+  profileUser: UserProfile | undefined;
 
   constructor(private userService: UserService,
               private notificationService: NotificationService) {
@@ -27,8 +27,12 @@ export class MainComponent implements OnInit {
     if (this.searchUsername && this.searchUsername.length > 1) {
       this.userService.searchUsername(this.searchUsername)
         .then((user) => {
-          this.viewMode = 'profile';
-          this.profileUser = user;
+          if (user.length == 0){
+            this.notificationService.notify('No user found for: ' + this.searchUsername)
+          }else{
+            this.viewMode = 'profile';
+            this.profileUser = user[0];
+          }
         })
         .catch(e => {
           this.notificationService.notify('No user found for: ' + this.searchUsername)

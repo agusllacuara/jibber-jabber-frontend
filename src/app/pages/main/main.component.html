@@ -26,8 +26,8 @@
         <app-main-table class="table-container"></app-main-table>
       </div>
       <div class="column" *ngIf="viewMode == 'profile' && profileUser">
-        <app-profile-header style="width: 100%" [user]="profileUser"></app-profile-header>
-        <app-main-table class="table-container" [user]="profileUser"></app-main-table>
+        <app-profile-header style="width: 100%" [_user]="profileUser"></app-profile-header>
+        <app-main-table class="table-container" [_user]="profileUser"></app-main-table>
       </div>
     </mat-drawer-content>
     <mat-drawer #leftSidenav mode="side" opened position="end" class="sidenav right">

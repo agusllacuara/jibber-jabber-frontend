@@ -26,32 +26,45 @@ export class UserService {
 
   modifyUsername(username: string) {
     const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
-    const request = this.http.put<User>(EnvironmentProvider.getGatewayURL() +'/users/update', username, {headers: header})
-    request.subscribe((data) => {
-        this.auth.currentUser = data;
-      });
+    this.http.put<User>(EnvironmentProvider.getGatewayURL() + '/users/update',
+      {username: username},
+      {headers: header}
+    ).subscribe((data) => {
+      this.auth.currentUser = data;
+    });
   }
 
   modifyPassword(password: string) {
     const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
-    this.http.post<User>(EnvironmentProvider.getGatewayURL() +'/users/password', password, {headers: header})
+    this.http.put<User>(EnvironmentProvider.getGatewayURL() + '/users/password', password, {headers: header})
       .subscribe((data) => {
         this.auth.currentUser = data;
       });
   }
 
-  searchUsername(searchUsername: string) {
+  searchUsername(searchUsername: string): Promise<UserProfile[]> {
     const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
-    return this.http.post<UserProfile>(EnvironmentProvider.getGatewayURL() +'/search', searchUsername,{headers: header}).toPromise()
+    return this.http.get<UserProfile[]>(EnvironmentProvider.getGatewayURL() + '/users/search/' + searchUsername, {headers: header}).toPromise()
   }
 
   follow(id: number) {
     const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
-    return this.http.post<boolean>(EnvironmentProvider.getGatewayURL() +'/follow', id, {headers: header}).toPromise();
+    return this.http.post<any>(EnvironmentProvider.getGatewayURL() + '/users/follow/' + id, {}, {headers: header}).toPromise();
   }
 
   unfollow(id: number) {
     const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
-    return this.http.post<boolean>(EnvironmentProvider.getGatewayURL() +'/unfollow', id, {headers: header}).toPromise();
+    return this.http.delete<any>(EnvironmentProvider.getGatewayURL() + '/users/follow/' + id, {headers: header}).toPromise();
   }
+
+  getFollowing(id: number) {
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    return this.http.get<UserProfile[]>(EnvironmentProvider.getGatewayURL() + '/users/followings/' + id, {headers: header}).toPromise()
+  }
+
+  getFollowers(id: number) {
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    return this.http.get<UserProfile[]>(EnvironmentProvider.getGatewayURL() + '/users/followers/' + id, {headers: header}).toPromise()
+  }
+
 }

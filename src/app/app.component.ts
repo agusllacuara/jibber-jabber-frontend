@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
     this.authService.loggedObserver.subscribe(
       async (logged) => {
         if (logged) {
-          console.log('hola')
           await this.router.navigate(['feed']);
         } else {
           await this.router.navigate(['login'])

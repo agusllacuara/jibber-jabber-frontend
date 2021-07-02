@@ -47,7 +47,7 @@ export class DrawerUserDataComponent implements OnInit {
     if (me) {
       this.userService.searchUsername(me.username)
         .then((res) => {
-          this.selfProfile.emit(res);
+          this.selfProfile.emit(res[0]);
         })
         .catch(e => {
           this.notificationService.notify('Something went wrong!')
