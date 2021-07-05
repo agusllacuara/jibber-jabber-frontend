@@ -36,7 +36,7 @@ export class ChatComponent implements OnInit {
     if (this.nextMessage && this.nextMessage.length > 1 && currentUser && this.chat) {
       const me = currentUser.id == this.chat.user1.id ? this.chat.user1.id : this.chat.user2.id;
       const other = currentUser.id != this.chat.user1.id ? this.chat.user1.id : this.chat.user2.id;
-      const msg = new ChatMessageDTO(0, me, other, this.nextMessage);
+      const msg = new ChatMessageDTO(this.chat.chatId, me, other, this.nextMessage);
       this.chatService.sendMessage(msg);
       this.nextMessage = '';
     } else {
