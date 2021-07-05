@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import * as Stomp from 'stompjs';
-import {EnvironmentProvider} from "../environments/EnvironmentProvider";
 import {ChatMessageDTO} from "../model/Message";
 import * as SockJS from "sockjs-client";
+import {Environment} from "@angular/compiler-cli/src/ngtsc/typecheck/src/environment";
+import {EnvironmentProvider} from "../environments/EnvironmentProvider";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
 
-  socket = new SockJS('/chat');
+  socket = new SockJS(EnvironmentProvider.getChatUrl() + '/chat');
   stompClient = Stomp.over(this.socket);
 
   constructor() {
