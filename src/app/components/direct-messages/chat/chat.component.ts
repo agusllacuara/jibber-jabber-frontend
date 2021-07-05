@@ -39,6 +39,7 @@ export class ChatComponent implements OnInit {
       const msg = new ChatMessageDTO(this.chat.chatId, me, other, this.nextMessage);
       this.chatService.sendMessage(msg);
       this.nextMessage = '';
+      this.chat.messages.push(msg)
     } else {
 
     }

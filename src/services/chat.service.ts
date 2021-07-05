@@ -8,6 +8,7 @@ import {NotificationService} from "./notification.service";
 import {UserService} from "./user.service";
 import {Chat, ChatMessageDTO, UserWithUsername} from "../model/Message";
 import {UserProfile} from "../model/User";
+import {createLogErrorHandler} from "@angular/compiler-cli/ngcc/src/execution/tasks/completion";
 
 @Injectable({
   providedIn: 'root',
@@ -27,16 +28,18 @@ export class ChatService {
 
   subscribeToChatReceiverSocket() {
     this.wsService.subscribe(
-      `/chat/${this.userService.getCurrentUser()!.id}`,
-      (msg: any) => {
+      `/topic/messages/${this.userService.getCurrentUser()!.id}`,
+      (msgUnparsed: any) => {
+        const msg = JSON.parse(msgUnparsed.body);
         if (msg) {
-          const currentChat = this.allChats.getValue();
-          const chat = currentChat.find(x => x.chatId == msg.id);
+          const currentAllChats = this.allChats.getValue();
+          const chat = currentAllChats.find(x => x.chatId == msg.id);
           if (chat) {
             const message = new ChatMessageDTO(msg.id, msg.sender, msg.receiver, msg.content);
             chat.messages.push(message);
+            this.allChats.next(this.allChats.value);
             const sendersName = chat.user1.id == msg.sender ? chat.user1.username : chat.user2.username;
-            this.notificationService.notify('New Message from!' + sendersName);
+            this.notificationService.notify('New message from: ' + sendersName);
           } else {
             this.getSpecificChat(msg.id)
               .then((incomingChat) => {

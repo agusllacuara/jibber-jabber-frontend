@@ -18,7 +18,12 @@ export class DirectMessagesComponent implements OnInit {
     this.chatService.allChatsObservable.subscribe((next) => {
       this.allChats = next;
       next.forEach(x => {
-        this.allChatsMap.set(x, false);
+        const prev = this.allChatsMap.get(x);
+        if (prev){
+          this.allChatsMap.set(x, prev);
+        }else{
+          this.allChatsMap.set(x, false);
+        }
       })
     });
     this.chatService.getChats();
