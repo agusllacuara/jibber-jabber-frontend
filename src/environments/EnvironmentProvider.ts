@@ -1,9 +1,9 @@
 export class EnvironmentProvider {
   static getGatewayURL(){
-    return 'http://localhost:8080'
+    return 'http://192.168.0.203:8080'
   }
 
   static getChatUrl() {
-    return 'http://localhost:8084'
+    return 'http://192.168.0.203:8084'
   }
 }

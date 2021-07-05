@@ -30,11 +30,12 @@ export class SocketService {
   subscribe(topic: string, callback: any): void {
     const connected: boolean = this.stompClient.connected;
     if (connected) {
+      console.log('subscribing: ', topic)
       this.subscribeToTopic(topic, callback);
       return
     }
-    this.stompClient.connect({}, (): any => {
-      this.subscribeToTopic(topic, callback);
+    this.stompClient.connect({}, () => {
+      this.subscribe(topic, callback);
     })
   }
 
@@ -43,9 +44,7 @@ export class SocketService {
   }
 
   private subscribeToTopic(topic: string, callback: any): void {
-    this.stompClient.subscribe(topic, () => {
-      callback();
-    })
+    this.stompClient.subscribe(topic, callback)
   }
 
 }

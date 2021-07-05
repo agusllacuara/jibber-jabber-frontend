@@ -15,9 +15,10 @@
     cursor: pointer;
     overflow-y: auto;
 
-    &.open{
-      border-bottom: 1px solid rgba(20,20,20,0);
+    &.open {
+      border-bottom: 1px solid rgba(20, 20, 20, 0);
     }
+
     &:hover {
       background: #ccc0cc;
     }
@@ -40,7 +41,7 @@
       height: 40vh;
       border-radius: 5px;
       background: transparent;
-      border: 2px solid rgba(20,20,20,.4);
+      border: 2px solid rgba(20, 20, 20, .4);
     }
 
     .messages-container {
@@ -48,6 +49,8 @@
       top: 0;
       width: 100%;
       height: calc(100% - 50px);
+      overflow-y: auto;
+
       .message-container {
         width: 100% !important;
         background: transparent;
@@ -93,7 +96,7 @@
       justify-content: center;
       height: 50px;
 
-      .user-icon{
+      .user-icon {
         position: absolute;
         right: 20px;
         font-size: 18px;
