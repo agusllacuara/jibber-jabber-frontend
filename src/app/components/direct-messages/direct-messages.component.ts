@@ -16,12 +16,12 @@ export class DirectMessagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.chatService.allChatsObservable.subscribe((next) => {
+      this.allChats = next;
       next.forEach(x => {
-        this.allChats = next;
         this.allChatsMap.set(x, false);
       })
     });
-    // this.chatService.getChats();
+    this.chatService.getChats();
     this.chatService.subscribeToChatReceiverSocket();
   }
 

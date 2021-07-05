@@ -16,7 +16,7 @@ export class ChatMessageDTO {
 export class UserWithUsername {
   constructor(
     public id: number,
-    public name: string
+    public username: string
   ) {
   }
 }

@@ -27,7 +27,7 @@ export class ChatService {
 
   subscribeToChatReceiverSocket() {
     this.wsService.subscribe(
-      `/chats/${this.userService.getCurrentUser()?.id}`,
+      `/chats/${this.userService.getCurrentUser()!.id}`,
       (msg: any) => {
         if (msg) {
           const currentChat = this.allChats.getValue();
@@ -35,14 +35,15 @@ export class ChatService {
           if (chat) {
             const message = new ChatMessageDTO(msg.id, msg.sender, msg.receiver, msg.content);
             chat.messages.push(message);
-            const sendersName = chat.user1.id == msg.sender ? chat.user1.name : chat.user2.name;
+            const sendersName = chat.user1.id == msg.sender ? chat.user1.username : chat.user2.username;
             this.notificationService.notify('New Message from!' + sendersName);
           } else {
-            this.getSpecificChat(msg.id).then((incomingChat) => {
-              const sendMe: Chat[] = {...this.allChats.getValue()};
-              sendMe.push(incomingChat);
-              this.allChats.next(sendMe);
-            });
+            this.getSpecificChat(msg.id)
+              .then((incomingChat) => {
+                const sendMe: Chat[] = {...this.allChats.getValue()};
+                sendMe.push(incomingChat);
+                this.allChats.next(sendMe);
+              });
             this.notificationService.notify('New chat available!');
           }
         } else {

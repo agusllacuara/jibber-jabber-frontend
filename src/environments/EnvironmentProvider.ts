@@ -4,6 +4,6 @@ export class EnvironmentProvider {
   }
 
   static getChatUrl() {
-    return 'ws://192.168.0.203:8084'
+    return 'http://192.168.0.203:8084'
   }
 }
