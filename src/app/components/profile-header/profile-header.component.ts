@@ -37,7 +37,6 @@ export class ProfileHeaderComponent implements OnInit {
 
   canFollow(): boolean {
     if (this.user && this.me && this.followers) {
-      console.log('Followers: ',this.followers)
       const imFollower = this.followers.find(x => x.id == this.me!.id);
       return !this.isSelf && !imFollower;
     } else {
@@ -51,9 +50,7 @@ export class ProfileHeaderComponent implements OnInit {
         .then((res) => {
           if (res && this.user && this.me && this.followers) {
             this.followers.push(this.me);
-            this.userService.follow(this.user.id).then(() => {
-              this.notificationService.notify('Following ' + this.user!.username);
-            });
+            this.notificationService.notify('Following ' + this.user!.username);
           }
         })
         .catch((e) => {

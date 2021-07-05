@@ -53,8 +53,7 @@ export class UserService {
   }
 
   unfollow(id: number) {
-    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
-    return this.http.delete<any>(EnvironmentProvider.getGatewayURL() + '/users/follow/' + id, {headers: header}).toPromise();
+    return this.follow(id);
   }
 
   getFollowing(id: number) {
