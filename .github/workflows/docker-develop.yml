@@ -2,7 +2,7 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
@@ -32,4 +32,3 @@ jobs:
           push: true
           build-args: configuration="develop" .
           tags: docker.pkg.github.com/${{ github.repository }}/jj-frontend-image:latest
-          

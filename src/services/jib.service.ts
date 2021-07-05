@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Jib} from "../model/Jib";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from "../model/User";
+import {EnvironmentProvider} from "../environments/EnvironmentProvider";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root',
@@ -12,25 +14,31 @@ export class JibService {
   private allJibs: BehaviorSubject<Jib[]> = new BehaviorSubject<Jib[]>([]);
   allJibsObservable: Observable<Jib[]> = this.allJibs.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private auth: AuthService) {
   }
 
   async getAllJibs(): Promise<void> {
-    this.http.get<any[]>('http://localhost:8080/post/getAll')
-      .subscribe((data: any[]) => {
-        const jibs: Jib[] = [];
-        data.forEach((jb) => {
-          console.log(jb.user_info)
-          let jib: Jib;
-          if (jb.media) {
-            jib = new Jib(jb.id, jb.user_info, jb.content, jb.likes, jb.reposts, jb.threads, jb.date, jb.media);
-          } else {
-            jib = new Jib(jb.id, jb.user_info, jb.content, jb.likes, jb.reposts, jb.threads, jb.date);
-          }
-          jibs.push(jib);
+    if (!this.auth.currentToken){
+      setTimeout(() => {
+        this.getAllJibs();
+      },5000);
+    }else{
+      const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+      this.http.get<any[]>(EnvironmentProvider.getGatewayURL() + '/post/getHomePosts', {headers: header})
+        .subscribe((data: any[]) => {
+          const jibs: Jib[] = [];
+          data.forEach((jb) => {
+            let jib: Jib;
+            if (jb.media) {
+              jib = new Jib(jb.id, jb.username, jb.userId, jb.content, jb.likes, jb.reposts, jb.threads, jb.date, jb.media);
+            } else {
+              jib = new Jib(jb.id, jb.username, jb.userId, jb.content, jb.likes, jb.reposts, jb.threads, jb.date);
+            }
+            jibs.push(jib);
+          });
+          this.setAllJibs(jibs);
         });
-        this.setAllJibs(jibs);
-      });
+    }
   }
 
   private setAllJibs(jibs: Jib[]): void {
@@ -38,7 +46,8 @@ export class JibService {
   }
 
   publish(content: string) {
-    this.http.post<Jib>('http://localhost:8080/post/create', {content: content})
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    this.http.post<Jib>(EnvironmentProvider.getGatewayURL() + '/post/create', {content: content}, {headers: header})
       .subscribe(async (data) => {
         if (data) {
           const newJibs = this.allJibs.getValue();
@@ -49,17 +58,19 @@ export class JibService {
   }
 
   like(jib: Jib) {
-    this.http.post<Jib>('http://localhost:8080/post/like', {jib: jib.id})
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    this.http.post<Jib>(EnvironmentProvider.getGatewayURL() + '/post/' + jib.id + '/like', {}, {headers: header})
       .subscribe(async (data) => {
       });
   }
 
-  getUserJibs(user: User) {
-    // return this.http.get<Jib[]>('http://localhost:8080/post/getAll/' + user.id).toPromise();
-    return Promise.resolve([new Jib(1, 'NickyFox', 'jb.content', ['1'], ['jb.reposts'], [], '', undefined)]);
+  getUserJibs(user: User): Promise<Jib[]> {
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    return this.http.get<Jib[]>(EnvironmentProvider.getGatewayURL() + '/post/getAll/' + user.id, {headers: header}).toPromise();
   }
 
   async delete(jib: Jib): Promise<number> {
-    return this.http.delete<number>('http://localhost:8080/post/' + jib.id).toPromise();
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    return this.http.delete<number>(EnvironmentProvider.getGatewayURL() + '/post/delete/' + jib.id, {headers: header}).toPromise();
   }
 }

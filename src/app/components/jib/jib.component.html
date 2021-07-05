@@ -1,5 +1,5 @@
 <div *ngIf="jib" class="jib">
-  <h3>{{jib.user}}</h3>
+  <h3>{{jib.username}}</h3>
   <p>{{jib.content}}</p>
   <img *ngIf="jib.media" class="jib-image" [id]="'image-'+jib.id">
   <div class="row">
@@ -20,7 +20,7 @@
         <p>{{jib.likes.length}}</p>
       </div>
 
-      <div class="action-button">
+      <div class="action-button" *ngIf="isSelf">
         <button mat-icon-button class="small" (click)="delete(jib)">
           <mat-icon>delete_outline</mat-icon>
         </button>

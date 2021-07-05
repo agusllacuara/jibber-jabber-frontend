@@ -1,11 +1,11 @@
 <div class="chat" *ngIf="chat">
   <div class="header" [ngClass]="{'open': isOpen}">
-    <h3>{{chat.friend.username}}</h3>
+    <h3>{{getFriendName()}}</h3>
   </div>
   <div class="content" [ngClass]="{'open': isOpen}">
     <div class="messages-container">
       <div *ngFor="let message of chat.messages" class="message-container">
-        <div class="message" [ngClass]="{'self': isSelf(message), 'friend': !isSelf(message)}">
+        <div class="message" [ngClass]="{'self': imMessageSender(message), 'friend': !imMessageSender(message)}">
           {{message.content}}
         </div>
       </div>

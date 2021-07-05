@@ -1,27 +1,23 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {NotificationService} from "./notification.service";
 import {User, UserProfile} from "../model/User";
 import {Router} from "@angular/router";
+import {EnvironmentProvider} from "../environments/EnvironmentProvider";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
 
-  private currentUser: User | undefined;
-
   constructor(private http: HttpClient,
               private notificationService: NotificationService,
-              private router: Router) {
-  }
-
-  setCurrentUser(user: User) {
-    this.currentUser = user;
+              private router: Router, private auth: AuthService) {
   }
 
   getCurrentUser(): User | undefined {
-    if (this.currentUser) return this.currentUser;
+    if (this.auth.getCurrentUser()) return this.auth.getCurrentUser();
     else {
       this.router.navigate(['login']);
       return undefined;
@@ -29,28 +25,45 @@ export class UserService {
   }
 
   modifyUsername(username: string) {
-    this.http.post<User>('http://localhost:8080/change/username', username)
-      .subscribe((data) => {
-        this.currentUser = data;
-      });
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    this.http.put<User>(EnvironmentProvider.getGatewayURL() + '/users/update',
+      {username: username},
+      {headers: header}
+    ).subscribe((data) => {
+      this.auth.currentUser = data;
+    });
   }
 
   modifyPassword(password: string) {
-    this.http.post<User>('http://localhost:8080/change/password', password)
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    this.http.put<User>(EnvironmentProvider.getGatewayURL() + '/users/password', password, {headers: header})
       .subscribe((data) => {
-        this.currentUser = data;
+        this.auth.currentUser = data;
       });
   }
 
-  searchUsername(searchUsername: string) {
-    return this.http.post<UserProfile>('http://localhost:8080/search', searchUsername).toPromise()
+  searchUsername(searchUsername: string): Promise<UserProfile[]> {
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    return this.http.get<UserProfile[]>(EnvironmentProvider.getGatewayURL() + '/users/search/' + searchUsername, {headers: header}).toPromise()
   }
 
   follow(id: number) {
-    return this.http.post<boolean>('http://localhost:8080/follow', id).toPromise();
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    return this.http.post<any>(EnvironmentProvider.getGatewayURL() + '/users/follow/' + id, {}, {headers: header}).toPromise();
   }
 
   unfollow(id: number) {
-    return this.http.post<boolean>('http://localhost:8080/unfollow', id).toPromise();
+    return this.follow(id);
   }
+
+  getFollowing(id: number) {
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    return this.http.get<UserProfile[]>(EnvironmentProvider.getGatewayURL() + '/users/followings/' + id, {headers: header}).toPromise()
+  }
+
+  getFollowers(id: number) {
+    const header: HttpHeaders = new HttpHeaders({'Authorization': this.auth.currentToken})
+    return this.http.get<UserProfile[]>(EnvironmentProvider.getGatewayURL() + '/users/followers/' + id, {headers: header}).toPromise()
+  }
+
 }

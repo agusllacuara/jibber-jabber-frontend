@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Chat, ChatService} from "../../../services/chat.service";
+import {ChatService} from "../../../services/chat.service";
+import {Chat} from "../../../model/Message";
 
 @Component({
   selector: 'app-direct-messages',
@@ -15,13 +16,18 @@ export class DirectMessagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.chatService.allChatsObservable.subscribe((next) => {
+      this.allChats = next;
       next.forEach(x => {
-        this.allChats = next;
-        this.allChatsMap.set(x, false);
+        const prev = this.allChatsMap.get(x);
+        if (prev){
+          this.allChatsMap.set(x, prev);
+        }else{
+          this.allChatsMap.set(x, false);
+        }
       })
-      console.log(this.allChats)
-    })
+    });
     this.chatService.getChats();
+    this.chatService.subscribeToChatReceiverSocket();
   }
 
   open(chat: Chat) {

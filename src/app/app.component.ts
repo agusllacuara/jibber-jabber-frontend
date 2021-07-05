@@ -11,14 +11,17 @@ import {NotificationService} from "../services/notification.service";
 export class AppComponent implements OnInit {
   title = 'jibber-jabber-frontend';
 
-  constructor(private authService: AuthService, private router: Router, private notificationService: NotificationService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private notificationService: NotificationService) {
   }
 
   async ngOnInit() {
     this.authService.loggedObserver.subscribe(
       async (logged) => {
         if (logged) {
-          await this.router.navigate(['feed'])
+          await this.router.navigate(['feed']);
         } else {
           await this.router.navigate(['login'])
         }
