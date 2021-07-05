@@ -27,7 +27,7 @@ export class ChatService {
 
   subscribeToChatReceiverSocket() {
     this.wsService.subscribe(
-      `/chats/${this.userService.getCurrentUser()!.id}`,
+      `/chat/${this.userService.getCurrentUser()!.id}`,
       (msg: any) => {
         if (msg) {
           const currentChat = this.allChats.getValue();
