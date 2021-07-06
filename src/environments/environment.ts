@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  name: 'dev'
+  name: 'dev',
+  chatUrl: 'http://192.168.0.203:8084',
+  backend: 'http://192.168.0.203:8080'
 };
 
 /*
