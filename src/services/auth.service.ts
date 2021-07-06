@@ -3,7 +3,6 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {BehaviorSubject, Observable} from 'rxjs';
 import {NotificationService} from "./notification.service";
 import {User} from "../model/User";
-import {UserService} from "./user.service";
 import {EnvironmentProvider} from "../environments/EnvironmentProvider";
 
 @Injectable({
