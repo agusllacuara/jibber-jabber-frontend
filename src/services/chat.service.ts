@@ -18,6 +18,9 @@ export class ChatService {
   private allChats: BehaviorSubject<Chat[]> = new BehaviorSubject<Chat[]>([]);
   allChatsObservable: Observable<Chat[]> = this.allChats.asObservable();
 
+  private openChatEvent: BehaviorSubject<Chat | undefined> = new BehaviorSubject<Chat | undefined>(undefined);
+  openChatEventObservable: Observable<Chat | undefined> = this.openChatEvent.asObservable();
+
   constructor(
     private http: HttpClient,
     private wsService: SocketService,
@@ -80,11 +83,27 @@ export class ChatService {
 
   createChat(usersProfile: UserProfile) {
     const currentChats = this.allChats.getValue();
-    currentChats.push(
-      new Chat(
-        0,
-        new UserWithUsername(usersProfile.id, usersProfile.username),
-        new UserWithUsername(this.userService.getCurrentUser()!.id, this.userService.getCurrentUser()!.username),
-        []));
+    const currentUser = this.userService.getCurrentUser();
+    if (currentUser){
+      const userId = currentUser.id;
+      const toId = usersProfile.id;
+      const chat = currentChats.find(x => this.exists(x, userId, toId))
+      if(chat){
+        this.openChatEvent.next(chat);
+      }else{
+        const newChat =
+          new Chat(
+            0,
+            new UserWithUsername(usersProfile.id, usersProfile.username),
+            new UserWithUsername(this.userService.getCurrentUser()!.id, this.userService.getCurrentUser()!.username),
+            []);
+        currentChats.push(newChat);
+        this.openChatEvent.next(newChat);
+      }
+    }
+  }
+
+  private exists(x: Chat, userId: number, toId: number) {
+    return (x.user1.id == userId && x.user2.id == toId) || (x.user2.id == userId && x.user1.id == toId);
   }
 }

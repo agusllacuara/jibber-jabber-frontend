@@ -28,6 +28,12 @@ export class DirectMessagesComponent implements OnInit {
     });
     this.chatService.getChats();
     this.chatService.subscribeToChatReceiverSocket();
+
+    this.chatService.openChatEventObservable.subscribe((openChat) => {
+      if (openChat){
+        this.open(openChat);
+      }
+    })
   }
 
   open(chat: Chat) {
