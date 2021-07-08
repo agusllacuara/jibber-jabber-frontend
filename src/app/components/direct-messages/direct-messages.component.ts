@@ -11,6 +11,7 @@ import {SocketService} from "../../../services/socket.service";
 export class DirectMessagesComponent implements OnInit {
   allChatsMap: Map<Chat, boolean> = new Map<Chat, boolean>();
   allChats: Chat[] = [];
+  openedId: number | undefined;
 
   constructor(private chatService: ChatService, private sktService: SocketService) {
   }
@@ -20,9 +21,11 @@ export class DirectMessagesComponent implements OnInit {
       this.allChats = next;
       next.forEach(x => {
         const prev = this.allChatsMap.get(x);
-        if (prev){
+        if (prev) {
+          if (x.chatId == this.openedId) this.allChatsMap.set(x, true);
           this.allChatsMap.set(x, prev);
-        }else{
+        } else {
+          if (x.chatId == this.openedId) this.allChatsMap.set(x, true);
           this.allChatsMap.set(x, false);
         }
       })
@@ -31,13 +34,14 @@ export class DirectMessagesComponent implements OnInit {
     this.chatService.subscribeToChatReceiverSocket();
 
     this.chatService.openChatEventObservable.subscribe((openChat) => {
-      if (openChat){
+      if (openChat) {
         this.open(openChat);
       }
     })
   }
 
   open(chat: Chat) {
+    this.openedId = chat.chatId;
     this.allChats.forEach((x) => {
       if (x.chatId === chat.chatId) {
         this.allChatsMap.set(x, true);
@@ -53,7 +57,7 @@ export class DirectMessagesComponent implements OnInit {
     else return false
   }
 
-  getSocketStatus(): string{
+  getSocketStatus(): string {
     if (this.sktService.state == "disconnected") document.getElementById("message-color")!.style.color = "red";
     if (this.sktService.state == "connected") document.getElementById("message-color")!.style.color = "black";
     return 'Chat service is currently ' + this.sktService.state;

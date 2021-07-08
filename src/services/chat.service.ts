@@ -36,7 +36,6 @@ export class ChatService {
         const msg = JSON.parse(msgUnparsed.body);
         console.log('Received message: ', msg.content);
         if (msg) {
-          await this.getChats();
           const currentAllChats = this.allChats.getValue();
           const chat = currentAllChats.find(x => x.chatId == msg.id);
           if (chat) {
@@ -46,12 +45,7 @@ export class ChatService {
             const sendersName = chat.user1.id == msg.sender ? chat.user1.username : chat.user2.username;
             this.notificationService.notify('New message from: ' + sendersName);
           } else {
-            this.getSpecificChat(msg.id)
-              .then((incomingChat) => {
-                const sendMe: Chat[] = {...this.allChats.getValue()};
-                sendMe.push(incomingChat);
-                this.allChats.next(sendMe);
-              });
+            await this.getChats();
             this.notificationService.notify('New chat available!');
           }
         } else {
