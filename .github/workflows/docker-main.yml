@@ -29,3 +29,23 @@ jobs:
           push: true
           build-args: .
           tags: docker.pkg.github.com/${{ github.repository }}/jj-frontend-image:latest
+  
+  azure-deploy:
+      needs: build
+      name: Deploy to Azure Dev VM
+      runs-on: ubuntu-latest
+      steps:
+        - name: SSH Connection
+          uses: appleboy/ssh-action@master
+          env:
+            REPO_OWNER: ${{ github.actor }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            username: ${{ secrets.VM_USERNAME }}
+            host: ${{ secrets.VM_HOST_PROD }}
+            password: ${{ secrets.VM_PASSWORD }}
+            script: |
+              cd jibby/jibby-jabber-infra
+              sudo docker-compose -f docker-compose.yml down
+              sudo docker system prune --all --force
+              sudo docker-compose -f docker-compose.yml up --detach
