@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ChatService} from "../../../services/chat.service";
 import {Chat} from "../../../model/Message";
+import {SocketService} from "../../../services/socket.service";
 
 @Component({
   selector: 'app-direct-messages',
@@ -11,7 +12,7 @@ export class DirectMessagesComponent implements OnInit {
   allChatsMap: Map<Chat, boolean> = new Map<Chat, boolean>();
   allChats: Chat[] = [];
 
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService, private sktService: SocketService) {
   }
 
   ngOnInit(): void {
@@ -50,5 +51,9 @@ export class DirectMessagesComponent implements OnInit {
     const bool = this.allChatsMap.get(chat);
     if (bool) return bool;
     else return false
+  }
+
+  getSocketStatus(): string{
+    return 'Chat service is currently ' + this.sktService.state;
   }
 }
