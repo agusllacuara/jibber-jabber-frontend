@@ -23,7 +23,6 @@ export class SocketService {
       (document.getElementById('connect') as any).disabled = true;
       (document.getElementById('disconnect') as any).disabled = false;
       (document.getElementById('response') as any).innerHTML = '';
-      if (frame) this.state = "connected";
     });
   }
 
@@ -41,6 +40,7 @@ export class SocketService {
   }
 
   sendMessage(msg: ChatMessageDTO) {
+    console.log('Sending message', msg)
     this.stompClient.send(`/topic/messages/${msg.receiver}`, {}, JSON.stringify(msg));
   }
 

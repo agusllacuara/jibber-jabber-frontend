@@ -34,6 +34,7 @@ export class ChatService {
       `/topic/messages/${this.userService.getCurrentUser()!.id}`,
       (msgUnparsed: any) => {
         const msg = JSON.parse(msgUnparsed.body);
+        console.log('Received message: ', msg.content);
         if (msg) {
           const currentAllChats = this.allChats.getValue();
           const chat = currentAllChats.find(x => x.chatId == msg.id);
