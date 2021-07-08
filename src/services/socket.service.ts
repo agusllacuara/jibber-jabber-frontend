@@ -41,7 +41,7 @@ export class SocketService {
 
   sendMessage(msg: ChatMessageDTO) {
     console.log('Sending message', msg)
-    this.stompClient.send(`/topic/messages/${msg.receiver}`, {}, JSON.stringify(msg));
+    this.stompClient.send(`/chat/${msg.receiver}`, {}, JSON.stringify(msg));
   }
 
   private subscribeToTopic(topic: string, callback: any): void {
