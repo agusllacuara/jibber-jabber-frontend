@@ -1,9 +1,12 @@
+import {environment} from "./environment";
+
 export class EnvironmentProvider {
+
   static getGatewayURL(){
-    return 'http://192.168.0.203:8080'
+    return environment.backend;
   }
 
   static getChatUrl() {
-    return 'http://192.168.0.203:8084'
+    return environment.chatUrl;
   }
 }
