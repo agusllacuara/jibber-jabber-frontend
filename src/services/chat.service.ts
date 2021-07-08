@@ -32,10 +32,11 @@ export class ChatService {
   subscribeToChatReceiverSocket() {
     this.wsService.subscribe(
       `/topic/messages/${this.userService.getCurrentUser()!.id}`,
-      (msgUnparsed: any) => {
+      async (msgUnparsed: any) => {
         const msg = JSON.parse(msgUnparsed.body);
         console.log('Received message: ', msg.content);
         if (msg) {
+          await this.getChats();
           const currentAllChats = this.allChats.getValue();
           const chat = currentAllChats.find(x => x.chatId == msg.id);
           if (chat) {

@@ -54,6 +54,10 @@ export class DirectMessagesComponent implements OnInit {
   }
 
   getSocketStatus(): string{
+    if (this.sktService.state == "disconnected") document.getElementById("message-color")!.style.color = "red";
+    if (this.sktService.state == "connected") document.getElementById("message-color")!.style.color = "black";
     return 'Chat service is currently ' + this.sktService.state;
   }
+
+
 }
