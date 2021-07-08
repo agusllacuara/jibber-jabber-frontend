@@ -91,12 +91,7 @@ export class ChatService {
       if(chat){
         this.openChatEvent.next(chat);
       }else{
-        const newChat =
-          new Chat(
-            0,
-            new UserWithUsername(usersProfile.id, usersProfile.username),
-            new UserWithUsername(this.userService.getCurrentUser()!.id, this.userService.getCurrentUser()!.username),
-            []);
+        const newChat = new Chat(0, new UserWithUsername(usersProfile.id, usersProfile.username), new UserWithUsername(this.userService.getCurrentUser()!.id, this.userService.getCurrentUser()!.username), []);
         currentChats.push(newChat);
         this.openChatEvent.next(newChat);
       }

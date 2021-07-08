@@ -37,8 +37,8 @@ export class DirectMessagesComponent implements OnInit {
   }
 
   open(chat: Chat) {
-    this.allChats.forEach(x => {
-      if (x === chat) {
+    this.allChats.forEach((x) => {
+      if (x.chatId === chat.chatId) {
         this.allChatsMap.set(x, true);
       } else {
         this.allChatsMap.set(x, false);
